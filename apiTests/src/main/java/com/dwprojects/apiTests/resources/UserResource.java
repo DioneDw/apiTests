@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/users")
 public class UserResource {
 
     @Autowired
-    UserService service;
+    private UserService service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable Integer id){
-        return ResponseEntity.ok().body(service.findById(id));
+        User obj = service.findById(id);
+        return ResponseEntity.ok().body(obj);
     }
 
 }
