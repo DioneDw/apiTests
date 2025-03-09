@@ -31,10 +31,15 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> create(@RequestBody UserDTO obj){
         return ResponseEntity.created(
-                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(service.create(userDTO).getId()).toUri()
+                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(service.create(obj).getId()).toUri()
         ).build();
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@RequestBody UserDTO obj, @PathVariable Integer id){
+        obj.setId(id);
+        return ResponseEntity.ok().body(mapper.map(service.update(obj),UserDTO.class));
+    }
 }
