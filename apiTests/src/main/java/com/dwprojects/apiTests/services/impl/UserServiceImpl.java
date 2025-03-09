@@ -4,6 +4,7 @@ import com.dwprojects.apiTests.domain.User;
 import com.dwprojects.apiTests.domain.dto.UserDTO;
 import com.dwprojects.apiTests.repositories.UserRepository;
 import com.dwprojects.apiTests.services.UserService;
+import com.dwprojects.apiTests.services.exceptions.DataIntegratyViolationException;
 import com.dwprojects.apiTests.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(UserDTO userDTO) {
-        return repository.save(mapper.map(userDTO,User.class));
+    public User create(UserDTO obj) {
+        findByEmail(obj);
+        return repository.save(mapper.map(obj,User.class));
+    }
+
+    private void findByEmail(UserDTO obj){
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if(user.isPresent()){
+            throw new DataIntegratyViolationException("E-mail já cadastrado no sistema");
+        }
     }
 }
