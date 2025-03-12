@@ -24,10 +24,11 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class UserServiceImplTest {
 
+    public static final int ID = 1;
     public static final String NAME = "DioneTest";
     public static final String EMAIL = "dioneteste@teste.com";
     public static final String PASSWORD = "1234";
-    public static final int ID = 1;
+
     public static final String MESSAGE = "Object not found";
     public static final int INDEX = 0;
     public static final String MESSAGE2 = "E-mail já cadastrado no sistema";
