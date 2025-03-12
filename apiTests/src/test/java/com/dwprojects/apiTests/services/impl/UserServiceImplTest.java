@@ -3,6 +3,7 @@ package com.dwprojects.apiTests.services.impl;
 import com.dwprojects.apiTests.domain.User;
 import com.dwprojects.apiTests.domain.dto.UserDTO;
 import com.dwprojects.apiTests.repositories.UserRepository;
+import com.dwprojects.apiTests.services.exceptions.DataIntegratyViolationException;
 import com.dwprojects.apiTests.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -30,6 +30,7 @@ class UserServiceImplTest {
     public static final int ID = 1;
     public static final String MESSAGE = "Object not found";
     public static final int INDEX = 0;
+    public static final String MESSAGE2 = "E-mail já cadastrado no sistema";
     @InjectMocks
     private UserServiceImpl service;
 
@@ -102,9 +103,19 @@ class UserServiceImplTest {
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
         assertEquals(PASSWORD, response.getPassword());
+    }
 
+    @Test
+    void whenCreateThenReturnAnDataIntegratyViolationException(){
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
 
-
+        try{
+            optionalUser.get().setId(2);
+            service.create(userDTO);
+        }catch(Exception e){
+            assertEquals(DataIntegratyViolationException.class, e.getClass());
+            assertEquals("E-mail já cadastrado no sistema", e.getMessage());
+        }
     }
 
 
