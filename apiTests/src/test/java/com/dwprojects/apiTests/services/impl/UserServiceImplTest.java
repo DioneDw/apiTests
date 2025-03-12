@@ -158,8 +158,14 @@ class UserServiceImplTest {
     }
 
     @Test
-    void deleteWithFail(){
-
+    void deleteWithObjectNotFoundException(){
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(MESSAGE));
+        try{
+            service.delete(ID);
+        }catch(Exception e){
+            assertEquals(ObjectNotFoundException.class, e.getClass());
+            assertEquals(MESSAGE, e.getMessage());
+        }
     }
 
 
