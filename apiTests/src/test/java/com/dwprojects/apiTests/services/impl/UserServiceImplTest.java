@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -114,7 +114,7 @@ class UserServiceImplTest {
             service.create(userDTO);
         }catch(Exception e){
             assertEquals(DataIntegratyViolationException.class, e.getClass());
-            assertEquals("E-mail já cadastrado no sistema", e.getMessage());
+            assertEquals(MESSAGE2, e.getMessage());
         }
     }
 
@@ -141,13 +141,27 @@ class UserServiceImplTest {
             service.update(userDTO);
         }catch(Exception e){
             assertEquals(DataIntegratyViolationException.class, e.getClass());
-            assertEquals("E-mail já cadastrado no sistema", e.getMessage());
+            assertEquals(MESSAGE2, e.getMessage());
         }
     }
 
     @Test
     void delete() {
     }
+
+    @Test
+    void deleteWithSucess(){
+        when(repository.findById(anyInt())).thenReturn(optionalUser);
+        doNothing().when(repository).deleteById(anyInt());
+        service.delete(ID);
+        verify(repository, times(1)).deleteById(anyInt());
+    }
+
+    @Test
+    void deleteWithFail(){
+
+    }
+
 
     private void startUser(){
         user = new User(ID, NAME, EMAIL, PASSWORD);
