@@ -4,7 +4,7 @@ import com.dwprojects.apiTests.domain.User;
 import com.dwprojects.apiTests.domain.dto.UserDTO;
 import com.dwprojects.apiTests.repositories.UserRepository;
 import com.dwprojects.apiTests.services.UserService;
-import com.dwprojects.apiTests.services.exceptions.DataIntegratyViolationException;
+import com.dwprojects.apiTests.services.exceptions.DataIntegrityViolationException;
 import com.dwprojects.apiTests.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     private void findByEmail(UserDTO obj){
         Optional<User> user = repository.findByEmail(obj.getEmail());
         if(user.isPresent() && !user.get().getId().equals(obj.getId())){
-            throw new DataIntegratyViolationException("E-mail já cadastrado no sistema");
+            throw new DataIntegrityViolationException("E-mail já cadastrado no sistema");
         }
     }
 }

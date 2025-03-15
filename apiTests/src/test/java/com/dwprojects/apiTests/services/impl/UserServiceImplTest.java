@@ -3,7 +3,7 @@ package com.dwprojects.apiTests.services.impl;
 import com.dwprojects.apiTests.domain.User;
 import com.dwprojects.apiTests.domain.dto.UserDTO;
 import com.dwprojects.apiTests.repositories.UserRepository;
-import com.dwprojects.apiTests.services.exceptions.DataIntegratyViolationException;
+import com.dwprojects.apiTests.services.exceptions.DataIntegrityViolationException;
 import com.dwprojects.apiTests.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -114,7 +114,7 @@ class UserServiceImplTest {
             optionalUser.get().setId(2);
             service.create(userDTO);
         }catch(Exception e){
-            assertEquals(DataIntegratyViolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals(MESSAGE2, e.getMessage());
         }
     }
@@ -141,7 +141,7 @@ class UserServiceImplTest {
             optionalUser.get().setId(2);
             service.update(userDTO);
         }catch(Exception e){
-            assertEquals(DataIntegratyViolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals(MESSAGE2, e.getMessage());
         }
     }
