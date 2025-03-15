@@ -16,8 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -109,7 +108,6 @@ class UserServiceImplTest {
     @Test
     void whenCreateThenReturnAnDataIntegratyViolationException(){
         when(repository.findByEmail(anyString())).thenReturn(optionalUser);
-
         try{
             optionalUser.get().setId(2);
             service.create(userDTO);
@@ -147,10 +145,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    void delete() {
-    }
-
-    @Test
     void deleteWithSucess(){
         when(repository.findById(anyInt())).thenReturn(optionalUser);
         doNothing().when(repository).deleteById(anyInt());
@@ -167,6 +161,21 @@ class UserServiceImplTest {
             assertEquals(ObjectNotFoundException.class, e.getClass());
             assertEquals(MESSAGE, e.getMessage());
         }
+    }
+
+    @Test
+    void whenUserNotEqualSearchFindByEmail(){
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        assertNotNull(optionalUser);
+    }
+
+    @Test
+    void whenCreateWithSameIdThenDoNotThrowException(){
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        assertDoesNotThrow(() -> service.create(userDTO));
+        verify(repository, times(1)).findByEmail(userDTO.getEmail());
     }
 
 
