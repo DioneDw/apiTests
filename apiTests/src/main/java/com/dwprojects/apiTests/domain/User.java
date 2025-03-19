@@ -1,5 +1,6 @@
 package com.dwprojects.apiTests.domain;
 
+import com.dwprojects.apiTests.domain.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,5 +24,12 @@ public class User {
 
     @JsonIgnore
     private String password;
+
+    public User (UserDTO user){
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+    }
 
 }
