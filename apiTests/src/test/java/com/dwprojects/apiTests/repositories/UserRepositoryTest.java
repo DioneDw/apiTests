@@ -40,7 +40,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Test for find user by ID unique")
+    @DisplayName("Test for find user by email with success")
     void findByEmail() {
         this.persistUser(user);
         Optional<User> userSearch = repository.findByEmail(EMAIL);
@@ -50,6 +50,8 @@ class UserRepositoryTest {
         assertEquals(EMAIL, userSearch.get().getEmail());
     }
 
+    @Test
+    @DisplayName("Teste for find user by email with exception")
 
 
 
