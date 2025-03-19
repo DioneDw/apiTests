@@ -50,12 +50,6 @@ class UserRepositoryTest {
         assertEquals(EMAIL, userSearch.get().getEmail());
     }
 
-    @Test
-    @DisplayName("Teste for find user by email with exception")
-
-
-
-
     void persistUser(User user){
         entityManager.persist(user);
     }
