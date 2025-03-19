@@ -108,13 +108,13 @@ class UserServiceImplTest {
     @Test
     void whenCreateThenReturnAnDataIntegratyViolationException(){
         when(repository.findByEmail(anyString())).thenReturn(optionalUser);
-        try{
+
+        DataIntegrityViolationException response = assertThrows(DataIntegrityViolationException.class, ()->{
             optionalUser.get().setId(2);
             service.create(userDTO);
-        }catch(Exception e){
-            assertEquals(DataIntegrityViolationException.class, e.getClass());
-            assertEquals(MESSAGE2, e.getMessage());
-        }
+        });
+        assertEquals(DataIntegrityViolationException.class, response.getClass());
+        assertEquals(MESSAGE2, response.getMessage());
     }
 
     @Test
